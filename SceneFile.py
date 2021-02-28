@@ -1,10 +1,12 @@
+from pathlib import Path
 # {folder_path}/{descriptor}_{task}_{v###}.{ext}
+
 
 class SceneFile(object):
     """An abstract representation of a Scene file."""
 
     def __init__(self, folder_path, descriptor, task, ver, ext):
-        self.folder_path = folder_path
+        self.folder_path = Path(folder_path)
         self.descriptor = descriptor
         self.task = task
         self.ver = ver
@@ -17,7 +19,10 @@ class SceneFile(object):
                               task=self.task,
                               ver=self.ver,
                               ext=self.ext)
+    @property
+    def path(self):
+        return self.folder_path / self.filename
 
 
-scene_file = SceneFile("C:\\", "tank", "model", 1, ".ma")
-print(scene_file.filename)
+scene_file = SceneFile("C:/", "tank", "model", 1, ".ma")
+print(scene_file.path)
