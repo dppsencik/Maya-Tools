@@ -9,6 +9,26 @@ import random as rand
 
 log = logging.getLogger(__name__)
 
+def maya_main_window():
+    """Return the maya main window widget"""
+    main_window = omui.MQtUtil.mainWindow()
+    return wrapInstance(long(main_window), QtWidgets.QWidget)
+
+
+class ScatterUI(QtWidgets.QDialog):
+    """Scatter UI Class"""
+
+    def __init__(self):
+        super(ScatterUI, self).__init__(parent=maya_main_window())
+        self.setWindowTitle("Scatter Tool")
+        self.setMinimumWidth(500)
+        self.setMaximumHeight(500)
+        self.setWindowFlags(self.windowFlags() ^
+                            QtCore.Qt.WindowContextHelpButtonHint)
+        self.title_lbl = QtWidgets.QLabel("Scatter")
+        self.main_lay = QtWidgets.QVBoxLayout()
+        self.main_lay.addWidget(self.title_lbl)
+        self.setLayout(self.main_lay)
 
 class Scatter:
 
@@ -51,7 +71,7 @@ class Scatter:
             if r[0] == r[1]:
                 scale.append(r[0])
             else:
-                scale.append(rand.uniform(r[0], r[1]))
+                scale.append(float('%.2f' % rand.uniform(r[0], r[1])))
 
         return scale
 
