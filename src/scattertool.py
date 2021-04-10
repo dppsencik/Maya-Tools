@@ -9,6 +9,7 @@ import random as rand
 
 log = logging.getLogger(__name__)
 
+
 def maya_main_window():
     """Return the maya main window widget"""
     main_window = omui.MQtUtil.mainWindow()
@@ -21,14 +22,158 @@ class ScatterUI(QtWidgets.QDialog):
     def __init__(self):
         super(ScatterUI, self).__init__(parent=maya_main_window())
         self.setWindowTitle("Scatter Tool")
-        self.setMinimumWidth(500)
-        self.setMaximumHeight(500)
+        self.setMinimumWidth(300)
+        self.setMaximumHeight(1000)
         self.setWindowFlags(self.windowFlags() ^
                             QtCore.Qt.WindowContextHelpButtonHint)
-        self.title_lbl = QtWidgets.QLabel("Scatter")
-        self.main_lay = QtWidgets.QVBoxLayout()
-        self.main_lay.addWidget(self.title_lbl)
+        self.create_ui()
+        self.main_lay.addWidget(self.save_btn)
         self.setLayout(self.main_lay)
+        self.create_connections()
+
+    def create_ui(self):
+        self.main_lay = QtWidgets.QVBoxLayout()
+        self.selection_lay = self.create_selection_options()
+        self.rotation_lay = self.create_rotation_options()
+        self.scale_lay = self.create_scale_options()
+
+        self.scale_lbl = QtWidgets.QLabel("Random Scale Options:")
+        self.scale_lbl.setStyleSheet("font: bold 18px")
+
+        self.rotation_lbl = QtWidgets.QLabel("Random Rotation Options:")
+        self.rotation_lbl.setStyleSheet("font: bold 18px")
+
+        self.main_lay.addLayout(self.selection_lay)
+        self.main_lay.addStretch()
+        self.main_lay.addWidget(self.scale_lbl)
+        self.main_lay.addLayout(self.scale_lay)
+        self.main_lay.addStretch()
+        self.main_lay.addWidget(self.rotation_lbl)
+        self.main_lay.addLayout(self.rotation_lay)
+        self.main_lay.addStretch()
+        self.save_btn = QtWidgets.QPushButton("Scatter")
+        self.setLayout(self.main_lay)
+
+    def create_selection_options(self):
+        layout = QtWidgets.QGridLayout()
+        self.source_btn = QtWidgets.QPushButton("Add Selection as the Source")
+        self.source_select_btn = QtWidgets.QPushButton("Select")
+        self.destination_btn = QtWidgets.QPushButton("Add Selection as the Destination")
+        self.destination_select_btn = QtWidgets.QPushButton("Select")
+
+        self.source_select_btn.setFixedWidth(75)
+        self.destination_select_btn.setFixedWidth(75)
+
+        layout.addWidget(self.source_btn, 0, 0)
+        layout.addWidget(self.source_select_btn, 0, 1)
+        layout.addWidget(self.destination_btn, 1, 0)
+        layout.addWidget(self.destination_select_btn, 1, 1)
+        return layout
+
+    def create_scale_options(self):
+        layout = QtWidgets.QGridLayout()
+        self.min_lbl = QtWidgets.QLabel("Min")
+        self.max_lbl = QtWidgets.QLabel("Max")
+        self.scaleXCheck = QtWidgets.QCheckBox("X&")
+        self.scaleYCheck = QtWidgets.QCheckBox("Y&")
+        self.scaleZCheck = QtWidgets.QCheckBox("Z&")
+
+        self.scaleXMin = QtWidgets.QLineEdit("0")
+        self.scaleXMin.setFixedWidth(50)
+        self.scaleXMax = QtWidgets.QLineEdit("0")
+        self.scaleXMax.setFixedWidth(50)
+        self.scaleYMin = QtWidgets.QLineEdit("0")
+        self.scaleYMin.setFixedWidth(50)
+        self.scaleYMax = QtWidgets.QLineEdit("0")
+        self.scaleYMax.setFixedWidth(50)
+        self.scaleZMin = QtWidgets.QLineEdit("0")
+        self.scaleZMin.setFixedWidth(50)
+        self.scaleZMax = QtWidgets.QLineEdit("0")
+        self.scaleZMax.setFixedWidth(50)
+
+        self.scaleXMin.setEnabled(False)
+        self.scaleYMin.setEnabled(False)
+        self.scaleZMin.setEnabled(False)
+        self.scaleXMax.setEnabled(False)
+        self.scaleYMax.setEnabled(False)
+        self.scaleZMax.setEnabled(False)
+
+        layout.addWidget(self.min_lbl, 0, 1)
+        layout.addWidget(self.max_lbl, 0, 2)
+        layout.addWidget(self.scaleXCheck, 1, 0)
+        layout.addWidget(self.scaleXMin, 1, 1)
+        layout.addWidget(self.scaleXMax, 1, 2)
+        layout.addWidget(self.scaleYCheck, 2, 0)
+        layout.addWidget(self.scaleYMin, 2, 1)
+        layout.addWidget(self.scaleYMax, 2, 2)
+        layout.addWidget(self.scaleZCheck, 3, 0)
+        layout.addWidget(self.scaleZMin, 3, 1)
+        layout.addWidget(self.scaleZMax, 3, 2)
+        return layout
+
+    def create_rotation_options(self):
+        layout = QtWidgets.QGridLayout()
+        self.min_lbl = QtWidgets.QLabel("Min")
+        self.max_lbl = QtWidgets.QLabel("Max")
+        self.rotateXCheck = QtWidgets.QCheckBox("X&")
+        self.rotateYCheck = QtWidgets.QCheckBox("Y&")
+        self.rotateZCheck = QtWidgets.QCheckBox("Z&")
+        self.rotateXCheck.setEnabled(False)
+        self.rotateZCheck.setEnabled(False)
+        self.rotateYCheck.setEnabled(False)
+
+        self.rotXMin = QtWidgets.QLineEdit("0")
+        self.rotXMin.setFixedWidth(50)
+        self.rotXMax = QtWidgets.QLineEdit("0")
+        self.rotXMax.setFixedWidth(50)
+        self.rotYMin = QtWidgets.QLineEdit("0")
+        self.rotYMin.setFixedWidth(50)
+        self.rotYMax = QtWidgets.QLineEdit("0")
+        self.rotYMax.setFixedWidth(50)
+        self.rotZMin = QtWidgets.QLineEdit("0")
+        self.rotZMin.setFixedWidth(50)
+        self.rotZMax = QtWidgets.QLineEdit("0")
+        self.rotZMax.setFixedWidth(50)
+
+        self.rotXMin.setEnabled(False)
+        self.rotYMin.setEnabled(False)
+        self.rotZMin.setEnabled(False)
+        self.rotXMax.setEnabled(False)
+        self.rotYMax.setEnabled(False)
+        self.rotZMax.setEnabled(False)
+
+        layout.addWidget(self.min_lbl, 0, 1)
+        layout.addWidget(self.max_lbl, 0, 2)
+        layout.addWidget(self.rotateXCheck, 1, 0)
+        layout.addWidget(self.rotXMin, 1, 1)
+        layout.addWidget(self.rotXMax, 1, 2)
+        layout.addWidget(self.rotateYCheck, 2, 0)
+        layout.addWidget(self.rotYMin, 2, 1)
+        layout.addWidget(self.rotYMax, 2, 2)
+        layout.addWidget(self.rotateZCheck, 3, 0)
+        layout.addWidget(self.rotZMin, 3, 1)
+        layout.addWidget(self.rotZMax, 3, 2)
+        return layout
+
+    def create_connections(self):
+        self.scaleXCheck.stateChanged.connect(self._scale_x_disable)
+        self.scaleYCheck.stateChanged.connect(self._scale_y_disable)
+        self.scaleZCheck.stateChanged.connect(self._scale_z_disable)
+        self.rotateXCheck.stateChanged.connect(self._rotate_x_disable)
+        self.rotateYCheck.stateChanged.connect(self._rotate_y_disable)
+        self.rotateZCheck.stateChanged.connect(self._rotate_z_disable)
+
+    @QtCore.Slot()
+    def _scale_x_disable(self):
+        if self.scaleXCheck.isChecked():
+            self.scaleXMax.setEnabled(True)
+            self.scaleXMin.setEnabled(True)
+        else:
+            self.scaleXMax.setEnabled(False)
+            self.scaleXMin.setEnabled(False)
+
+
+
 
 class Scatter:
 
@@ -74,8 +219,3 @@ class Scatter:
                 scale.append(float('%.2f' % rand.uniform(r[0], r[1])))
 
         return scale
-
-
-
-
-
