@@ -1,4 +1,3 @@
-import pymel.core as pmc
 import logging
 import maya.OpenMayaUI as omui
 import maya.cmds as cmds
@@ -222,6 +221,7 @@ class ScatterUI(QtWidgets.QDialog):
 
     @QtCore.Slot()
     def _scatter(self):
+        self.set_properties_from_ui()
         self.scatter.instance_selection()
 
     @QtCore.Slot()
@@ -240,20 +240,48 @@ class ScatterUI(QtWidgets.QDialog):
     def _select_destination(self):
         cmds.select(self.scatter.vertices)
 
+    def set_properties_from_ui(self):
+        if self.scaleXCheck.isChecked():
+            self.scatter.scaleRanges[0] = \
+                [float(self.scaleXMin.text()), float(self.scaleXMax.text())]
 
+        if self.scaleYCheck.isChecked():
+            self.scatter.scaleRanges[1] = \
+                [float(self.scaleYMin.text()), float(self.scaleYMax.text())]
 
+        if self.scaleZCheck.isChecked():
+            self.scatter.scaleRanges[2] = \
+                [float(self.scaleZMin.text()), float(self.scaleZMax.text())]
+
+        if self.rotateXCheck.isChecked():
+            self.scatter.rotateRanges[0] = \
+                [int(self.rotXMin.text()), int(self.rotXMax.text())]
+            log.warning(self.scatter.rotateRanges[0])
+
+        if self.rotateYCheck.isChecked():
+            self.scatter.rotateRanges[1] = \
+                [int(self.rotYMin.text()), int(self.rotYMax.text())]
+
+        if self.rotateZCheck.isChecked():
+            self.scatter.rotateRanges[2] = \
+                [int(self.rotZMin.text()), int(self.rotZMax.text())]
 
 
 class Scatter:
 
     def __init__(self):
-        # selection = cmds.ls(orderedSelection=True)
-        self.rotateRanges = [[0, 0], [0, 0], [0, 0]]
-        self.scaleRanges = [[1.0, 1.0], [1.0, 1.0], [1.0, 1.0]]
-
+        self.rotateRanges = [
+            [0, 0],
+            [0, 0],
+            [0, 0]]
+        self.scaleRanges = [
+            [1.0, 1.0],
+            [1.0, 1.0],
+            [1.0, 1.0]]
+        self.source = None
 
     def instance_selection(self):
-        if not self.source:
+        if self.source == None:
             selection = cmds.ls(orderedSelection=True)
             self.source = selection[0]
             self.vertices = cmds.filterExpand(sm=31)
@@ -268,6 +296,14 @@ class Scatter:
                        scale=self.get_scale_range())
             cmds.parent(instance_result, instance_group)
         cmds.xform(instance_group, centerPivots=True)
+        self.rotateRanges = [
+            [0, 0],
+            [0, 0],
+            [0, 0]]
+        self.scaleRanges = [
+            [1.0, 1.0],
+            [1.0, 1.0],
+            [1.0, 1.0]]
 
     def set_selection_source(self):
         selection = cmds.ls(orderedSelection=True)
@@ -280,7 +316,6 @@ class Scatter:
 
     def set_destination(self):
         self.vertices = cmds.filterExpand(sm=31)
-
 
     def get_rotate_range(self):
         rotation = []
