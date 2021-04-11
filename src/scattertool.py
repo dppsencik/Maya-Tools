@@ -26,8 +26,9 @@ class ScatterUI(QtWidgets.QDialog):
         self.setMaximumHeight(1000)
         self.setWindowFlags(self.windowFlags() ^
                             QtCore.Qt.WindowContextHelpButtonHint)
+        self.scatter = Scatter()
         self.create_ui()
-        self.main_lay.addWidget(self.save_btn)
+        self.main_lay.addWidget(self.scatter_btn)
         self.setLayout(self.main_lay)
         self.create_connections()
 
@@ -51,7 +52,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.main_lay.addWidget(self.rotation_lbl)
         self.main_lay.addLayout(self.rotation_lay)
         self.main_lay.addStretch()
-        self.save_btn = QtWidgets.QPushButton("Scatter")
+        self.scatter_btn = QtWidgets.QPushButton("Scatter")
         self.setLayout(self.main_lay)
 
     def create_selection_options(self):
@@ -74,21 +75,21 @@ class ScatterUI(QtWidgets.QDialog):
         layout = QtWidgets.QGridLayout()
         self.min_lbl = QtWidgets.QLabel("Min")
         self.max_lbl = QtWidgets.QLabel("Max")
-        self.scaleXCheck = QtWidgets.QCheckBox("X&")
-        self.scaleYCheck = QtWidgets.QCheckBox("Y&")
-        self.scaleZCheck = QtWidgets.QCheckBox("Z&")
+        self.scaleXCheck = QtWidgets.QCheckBox("X")
+        self.scaleYCheck = QtWidgets.QCheckBox("Y")
+        self.scaleZCheck = QtWidgets.QCheckBox("Z")
 
-        self.scaleXMin = QtWidgets.QLineEdit("0")
+        self.scaleXMin = QtWidgets.QLineEdit("1")
         self.scaleXMin.setFixedWidth(50)
-        self.scaleXMax = QtWidgets.QLineEdit("0")
+        self.scaleXMax = QtWidgets.QLineEdit("1")
         self.scaleXMax.setFixedWidth(50)
-        self.scaleYMin = QtWidgets.QLineEdit("0")
+        self.scaleYMin = QtWidgets.QLineEdit("1")
         self.scaleYMin.setFixedWidth(50)
-        self.scaleYMax = QtWidgets.QLineEdit("0")
+        self.scaleYMax = QtWidgets.QLineEdit("1")
         self.scaleYMax.setFixedWidth(50)
-        self.scaleZMin = QtWidgets.QLineEdit("0")
+        self.scaleZMin = QtWidgets.QLineEdit("1")
         self.scaleZMin.setFixedWidth(50)
-        self.scaleZMax = QtWidgets.QLineEdit("0")
+        self.scaleZMax = QtWidgets.QLineEdit("1")
         self.scaleZMax.setFixedWidth(50)
 
         self.scaleXMin.setEnabled(False)
@@ -115,12 +116,9 @@ class ScatterUI(QtWidgets.QDialog):
         layout = QtWidgets.QGridLayout()
         self.min_lbl = QtWidgets.QLabel("Min")
         self.max_lbl = QtWidgets.QLabel("Max")
-        self.rotateXCheck = QtWidgets.QCheckBox("X&")
-        self.rotateYCheck = QtWidgets.QCheckBox("Y&")
-        self.rotateZCheck = QtWidgets.QCheckBox("Z&")
-        self.rotateXCheck.setEnabled(False)
-        self.rotateZCheck.setEnabled(False)
-        self.rotateYCheck.setEnabled(False)
+        self.rotateXCheck = QtWidgets.QCheckBox("X")
+        self.rotateYCheck = QtWidgets.QCheckBox("Y")
+        self.rotateZCheck = QtWidgets.QCheckBox("Z")
 
         self.rotXMin = QtWidgets.QLineEdit("0")
         self.rotXMin.setFixedWidth(50)
@@ -162,6 +160,11 @@ class ScatterUI(QtWidgets.QDialog):
         self.rotateXCheck.stateChanged.connect(self._rotate_x_disable)
         self.rotateYCheck.stateChanged.connect(self._rotate_y_disable)
         self.rotateZCheck.stateChanged.connect(self._rotate_z_disable)
+        self.source_btn.clicked.connect(self._set_source)
+        self.source_select_btn.clicked.connect(self._select_source)
+        self.destination_btn.clicked.connect(self._set_destination)
+        self.destination_select_btn.clicked.connect(self._select_destination)
+        self.scatter_btn.clicked.connect(self._scatter)
 
     @QtCore.Slot()
     def _scale_x_disable(self):
@@ -172,23 +175,89 @@ class ScatterUI(QtWidgets.QDialog):
             self.scaleXMax.setEnabled(False)
             self.scaleXMin.setEnabled(False)
 
+    @QtCore.Slot()
+    def _scale_y_disable(self):
+        if self.scaleYCheck.isChecked():
+            self.scaleYMax.setEnabled(True)
+            self.scaleYMin.setEnabled(True)
+        else:
+            self.scaleYMax.setEnabled(False)
+            self.scaleYMin.setEnabled(False)
+
+    @QtCore.Slot()
+    def _scale_z_disable(self):
+        if self.scaleZCheck.isChecked():
+            self.scaleZMax.setEnabled(True)
+            self.scaleZMin.setEnabled(True)
+        else:
+            self.scaleZMax.setEnabled(False)
+            self.scaleZMin.setEnabled(False)
+
+    @QtCore.Slot()
+    def _rotate_x_disable(self):
+        if self.rotateXCheck.isChecked():
+            self.rotXMax.setEnabled(True)
+            self.rotXMin.setEnabled(True)
+        else:
+            self.rotXMax.setEnabled(False)
+            self.rotXMin.setEnabled(False)
+
+    @QtCore.Slot()
+    def _rotate_y_disable(self):
+        if self.rotateYCheck.isChecked():
+            self.rotYMax.setEnabled(True)
+            self.rotYMin.setEnabled(True)
+        else:
+            self.rotYMax.setEnabled(False)
+            self.rotYMin.setEnabled(False)
+
+    @QtCore.Slot()
+    def _rotate_z_disable(self):
+        if self.rotateZCheck.isChecked():
+            self.rotZMax.setEnabled(True)
+            self.rotZMin.setEnabled(True)
+        else:
+            self.rotZMax.setEnabled(False)
+            self.rotZMin.setEnabled(False)
+
+    @QtCore.Slot()
+    def _scatter(self):
+        self.scatter.instance_selection()
+
+    @QtCore.Slot()
+    def _set_source(self):
+        self.scatter.set_selection_source()
+
+    @QtCore.Slot()
+    def _set_destination(self):
+        self.scatter.set_destination()
+
+    @QtCore.Slot()
+    def _select_source(self):
+        cmds.select(self.scatter.source)
+
+    @QtCore.Slot()
+    def _select_destination(self):
+        cmds.select(self.scatter.vertices)
+
+
 
 
 
 class Scatter:
 
     def __init__(self):
-        selection = cmds.ls(orderedSelection=True)
-        self.source = selection[0]
-        self.vertices = cmds.filterExpand(sm=31)
-        self.rotateRanges = [[0, 0], [0, 360], [0, 0]]
-        self.scaleRanges = [[1.0, 2.0], [1.0, 2.0], [1.0, 2.0]]
-        if cmds.objectType(self.source) == "transform":
-            self.instance_selection()
-        else:
-            log.warning("Please make sure your first selection is an object.")
+        # selection = cmds.ls(orderedSelection=True)
+        self.rotateRanges = [[0, 0], [0, 0], [0, 0]]
+        self.scaleRanges = [[1.0, 1.0], [1.0, 1.0], [1.0, 1.0]]
+
 
     def instance_selection(self):
+        if not self.source:
+            selection = cmds.ls(orderedSelection=True)
+            self.source = selection[0]
+            self.vertices = cmds.filterExpand(sm=31)
+
         instance_group = cmds.group(empty=True, name=self.source + "_instanceGroup#")
         for vert in self.vertices:
             instance_result = cmds.instance(self.source, name=self.source + "_instance#")
@@ -199,6 +268,19 @@ class Scatter:
                        scale=self.get_scale_range())
             cmds.parent(instance_result, instance_group)
         cmds.xform(instance_group, centerPivots=True)
+
+    def set_selection_source(self):
+        selection = cmds.ls(orderedSelection=True)
+        self.source = selection[0]
+        if cmds.objectType(self.source) == "transform":
+            return
+        else:
+            log.warning("Please make sure your first selection is an object.")
+            self.source = None
+
+    def set_destination(self):
+        self.vertices = cmds.filterExpand(sm=31)
+
 
     def get_rotate_range(self):
         rotation = []
