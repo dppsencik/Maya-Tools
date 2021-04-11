@@ -74,91 +74,91 @@ class ScatterUI(QtWidgets.QDialog):
         layout = QtWidgets.QGridLayout()
         self.min_lbl = QtWidgets.QLabel("Min")
         self.max_lbl = QtWidgets.QLabel("Max")
-        self.scaleXCheck = QtWidgets.QCheckBox("X")
-        self.scaleYCheck = QtWidgets.QCheckBox("Y")
-        self.scaleZCheck = QtWidgets.QCheckBox("Z")
+        self.scale_x_check = QtWidgets.QCheckBox("X")
+        self.scale_y_check = QtWidgets.QCheckBox("Y")
+        self.scale_z_check = QtWidgets.QCheckBox("Z")
 
-        self.scaleXMin = QtWidgets.QLineEdit("1")
-        self.scaleXMin.setFixedWidth(50)
-        self.scaleXMax = QtWidgets.QLineEdit("1")
-        self.scaleXMax.setFixedWidth(50)
-        self.scaleYMin = QtWidgets.QLineEdit("1")
-        self.scaleYMin.setFixedWidth(50)
-        self.scaleYMax = QtWidgets.QLineEdit("1")
-        self.scaleYMax.setFixedWidth(50)
-        self.scaleZMin = QtWidgets.QLineEdit("1")
-        self.scaleZMin.setFixedWidth(50)
-        self.scaleZMax = QtWidgets.QLineEdit("1")
-        self.scaleZMax.setFixedWidth(50)
+        self.scale_x_min = QtWidgets.QLineEdit("1")
+        self.scale_x_min.setFixedWidth(50)
+        self.scale_x_max = QtWidgets.QLineEdit("1")
+        self.scale_x_max.setFixedWidth(50)
+        self.scale_y_min = QtWidgets.QLineEdit("1")
+        self.scale_y_min.setFixedWidth(50)
+        self.scale_y_max = QtWidgets.QLineEdit("1")
+        self.scale_y_max.setFixedWidth(50)
+        self.scale_z_min = QtWidgets.QLineEdit("1")
+        self.scale_z_min.setFixedWidth(50)
+        self.scale_z_max = QtWidgets.QLineEdit("1")
+        self.scale_z_max.setFixedWidth(50)
 
-        self.scaleXMin.setEnabled(False)
-        self.scaleYMin.setEnabled(False)
-        self.scaleZMin.setEnabled(False)
-        self.scaleXMax.setEnabled(False)
-        self.scaleYMax.setEnabled(False)
-        self.scaleZMax.setEnabled(False)
+        self.scale_x_min.setEnabled(False)
+        self.scale_y_min.setEnabled(False)
+        self.scale_z_min.setEnabled(False)
+        self.scale_x_max.setEnabled(False)
+        self.scale_y_max.setEnabled(False)
+        self.scale_z_max.setEnabled(False)
 
         layout.addWidget(self.min_lbl, 0, 1)
         layout.addWidget(self.max_lbl, 0, 2)
-        layout.addWidget(self.scaleXCheck, 1, 0)
-        layout.addWidget(self.scaleXMin, 1, 1)
-        layout.addWidget(self.scaleXMax, 1, 2)
-        layout.addWidget(self.scaleYCheck, 2, 0)
-        layout.addWidget(self.scaleYMin, 2, 1)
-        layout.addWidget(self.scaleYMax, 2, 2)
-        layout.addWidget(self.scaleZCheck, 3, 0)
-        layout.addWidget(self.scaleZMin, 3, 1)
-        layout.addWidget(self.scaleZMax, 3, 2)
+        layout.addWidget(self.scale_x_check, 1, 0)
+        layout.addWidget(self.scale_x_min, 1, 1)
+        layout.addWidget(self.scale_x_max, 1, 2)
+        layout.addWidget(self.scale_y_check, 2, 0)
+        layout.addWidget(self.scale_y_min, 2, 1)
+        layout.addWidget(self.scale_y_max, 2, 2)
+        layout.addWidget(self.scale_z_check, 3, 0)
+        layout.addWidget(self.scale_z_min, 3, 1)
+        layout.addWidget(self.scale_z_max, 3, 2)
         return layout
 
     def create_rotation_options(self):
         layout = QtWidgets.QGridLayout()
         self.min_lbl = QtWidgets.QLabel("Min")
         self.max_lbl = QtWidgets.QLabel("Max")
-        self.rotateXCheck = QtWidgets.QCheckBox("X")
-        self.rotateYCheck = QtWidgets.QCheckBox("Y")
-        self.rotateZCheck = QtWidgets.QCheckBox("Z")
+        self.rotate_x_check = QtWidgets.QCheckBox("X")
+        self.rotate_y_check = QtWidgets.QCheckBox("Y")
+        self.rotate_z_check = QtWidgets.QCheckBox("Z")
 
-        self.rotXMin = QtWidgets.QLineEdit("0")
-        self.rotXMin.setFixedWidth(50)
-        self.rotXMax = QtWidgets.QLineEdit("0")
-        self.rotXMax.setFixedWidth(50)
-        self.rotYMin = QtWidgets.QLineEdit("0")
-        self.rotYMin.setFixedWidth(50)
-        self.rotYMax = QtWidgets.QLineEdit("0")
-        self.rotYMax.setFixedWidth(50)
-        self.rotZMin = QtWidgets.QLineEdit("0")
-        self.rotZMin.setFixedWidth(50)
-        self.rotZMax = QtWidgets.QLineEdit("0")
-        self.rotZMax.setFixedWidth(50)
+        self.rot_x_min = QtWidgets.QLineEdit("0")
+        self.rot_x_min.setFixedWidth(50)
+        self.rot_x_max = QtWidgets.QLineEdit("0")
+        self.rot_x_max.setFixedWidth(50)
+        self.rot_y_min = QtWidgets.QLineEdit("0")
+        self.rot_y_min.setFixedWidth(50)
+        self.rot_y_max = QtWidgets.QLineEdit("0")
+        self.rot_y_max.setFixedWidth(50)
+        self.rot_z_min = QtWidgets.QLineEdit("0")
+        self.rot_z_min.setFixedWidth(50)
+        self.rot_z_max = QtWidgets.QLineEdit("0")
+        self.rot_z_max.setFixedWidth(50)
 
-        self.rotXMin.setEnabled(False)
-        self.rotYMin.setEnabled(False)
-        self.rotZMin.setEnabled(False)
-        self.rotXMax.setEnabled(False)
-        self.rotYMax.setEnabled(False)
-        self.rotZMax.setEnabled(False)
+        self.rot_x_min.setEnabled(False)
+        self.rot_y_min.setEnabled(False)
+        self.rot_z_min.setEnabled(False)
+        self.rot_x_max.setEnabled(False)
+        self.rot_y_max.setEnabled(False)
+        self.rot_z_max.setEnabled(False)
 
         layout.addWidget(self.min_lbl, 0, 1)
         layout.addWidget(self.max_lbl, 0, 2)
-        layout.addWidget(self.rotateXCheck, 1, 0)
-        layout.addWidget(self.rotXMin, 1, 1)
-        layout.addWidget(self.rotXMax, 1, 2)
-        layout.addWidget(self.rotateYCheck, 2, 0)
-        layout.addWidget(self.rotYMin, 2, 1)
-        layout.addWidget(self.rotYMax, 2, 2)
-        layout.addWidget(self.rotateZCheck, 3, 0)
-        layout.addWidget(self.rotZMin, 3, 1)
-        layout.addWidget(self.rotZMax, 3, 2)
+        layout.addWidget(self.rotate_x_check, 1, 0)
+        layout.addWidget(self.rot_x_min, 1, 1)
+        layout.addWidget(self.rot_x_max, 1, 2)
+        layout.addWidget(self.rotate_y_check, 2, 0)
+        layout.addWidget(self.rot_y_min, 2, 1)
+        layout.addWidget(self.rot_y_max, 2, 2)
+        layout.addWidget(self.rotate_z_check, 3, 0)
+        layout.addWidget(self.rot_z_min, 3, 1)
+        layout.addWidget(self.rot_z_max, 3, 2)
         return layout
 
     def create_connections(self):
-        self.scaleXCheck.stateChanged.connect(self._scale_x_disable)
-        self.scaleYCheck.stateChanged.connect(self._scale_y_disable)
-        self.scaleZCheck.stateChanged.connect(self._scale_z_disable)
-        self.rotateXCheck.stateChanged.connect(self._rotate_x_disable)
-        self.rotateYCheck.stateChanged.connect(self._rotate_y_disable)
-        self.rotateZCheck.stateChanged.connect(self._rotate_z_disable)
+        self.scale_x_check.stateChanged.connect(self._scale_x_disable)
+        self.scale_y_check.stateChanged.connect(self._scale_y_disable)
+        self.scale_z_check.stateChanged.connect(self._scale_z_disable)
+        self.rotate_x_check.stateChanged.connect(self._rotate_x_disable)
+        self.rotate_y_check.stateChanged.connect(self._rotate_y_disable)
+        self.rotate_z_check.stateChanged.connect(self._rotate_z_disable)
         self.source_btn.clicked.connect(self._set_source)
         self.source_select_btn.clicked.connect(self._select_source)
         self.destination_btn.clicked.connect(self._set_destination)
@@ -167,57 +167,57 @@ class ScatterUI(QtWidgets.QDialog):
 
     @QtCore.Slot()
     def _scale_x_disable(self):
-        if self.scaleXCheck.isChecked():
-            self.scaleXMax.setEnabled(True)
-            self.scaleXMin.setEnabled(True)
+        if self.scale_x_check.isChecked():
+            self.scale_x_max.setEnabled(True)
+            self.scale_x_min.setEnabled(True)
         else:
-            self.scaleXMax.setEnabled(False)
-            self.scaleXMin.setEnabled(False)
+            self.scale_x_max.setEnabled(False)
+            self.scale_x_min.setEnabled(False)
 
     @QtCore.Slot()
     def _scale_y_disable(self):
-        if self.scaleYCheck.isChecked():
-            self.scaleYMax.setEnabled(True)
-            self.scaleYMin.setEnabled(True)
+        if self.scale_y_check.isChecked():
+            self.scale_y_max.setEnabled(True)
+            self.scale_y_min.setEnabled(True)
         else:
-            self.scaleYMax.setEnabled(False)
-            self.scaleYMin.setEnabled(False)
+            self.scale_y_max.setEnabled(False)
+            self.scale_y_min.setEnabled(False)
 
     @QtCore.Slot()
     def _scale_z_disable(self):
-        if self.scaleZCheck.isChecked():
-            self.scaleZMax.setEnabled(True)
-            self.scaleZMin.setEnabled(True)
+        if self.scale_z_check.isChecked():
+            self.scale_z_max.setEnabled(True)
+            self.scale_z_min.setEnabled(True)
         else:
-            self.scaleZMax.setEnabled(False)
-            self.scaleZMin.setEnabled(False)
+            self.scale_z_max.setEnabled(False)
+            self.scale_z_min.setEnabled(False)
 
     @QtCore.Slot()
     def _rotate_x_disable(self):
-        if self.rotateXCheck.isChecked():
-            self.rotXMax.setEnabled(True)
-            self.rotXMin.setEnabled(True)
+        if self.rotate_x_check.isChecked():
+            self.rot_x_max.setEnabled(True)
+            self.rot_x_min.setEnabled(True)
         else:
-            self.rotXMax.setEnabled(False)
-            self.rotXMin.setEnabled(False)
+            self.rot_x_max.setEnabled(False)
+            self.rot_x_min.setEnabled(False)
 
     @QtCore.Slot()
     def _rotate_y_disable(self):
-        if self.rotateYCheck.isChecked():
-            self.rotYMax.setEnabled(True)
-            self.rotYMin.setEnabled(True)
+        if self.rotate_y_check.isChecked():
+            self.rot_y_max.setEnabled(True)
+            self.rot_y_min.setEnabled(True)
         else:
-            self.rotYMax.setEnabled(False)
-            self.rotYMin.setEnabled(False)
+            self.rot_y_max.setEnabled(False)
+            self.rot_y_min.setEnabled(False)
 
     @QtCore.Slot()
     def _rotate_z_disable(self):
-        if self.rotateZCheck.isChecked():
-            self.rotZMax.setEnabled(True)
-            self.rotZMin.setEnabled(True)
+        if self.rotate_z_check.isChecked():
+            self.rot_z_max.setEnabled(True)
+            self.rot_z_min.setEnabled(True)
         else:
-            self.rotZMax.setEnabled(False)
-            self.rotZMin.setEnabled(False)
+            self.rot_z_max.setEnabled(False)
+            self.rot_z_min.setEnabled(False)
 
     @QtCore.Slot()
     def _scatter(self):
@@ -241,40 +241,40 @@ class ScatterUI(QtWidgets.QDialog):
         cmds.select(self.scatter.vertices)
 
     def set_properties_from_ui(self):
-        if self.scaleXCheck.isChecked():
-            self.scatter.scaleRanges[0] = \
-                [float(self.scaleXMin.text()), float(self.scaleXMax.text())]
+        if self.scale_x_check.isChecked():
+            self.scatter.scale_ranges[0] = \
+                [float(self.scale_x_min.text()), float(self.scale_x_max.text())]
 
-        if self.scaleYCheck.isChecked():
-            self.scatter.scaleRanges[1] = \
-                [float(self.scaleYMin.text()), float(self.scaleYMax.text())]
+        if self.scale_y_check.isChecked():
+            self.scatter.scale_ranges[1] = \
+                [float(self.scale_y_min.text()), float(self.scale_y_max.text())]
 
-        if self.scaleZCheck.isChecked():
-            self.scatter.scaleRanges[2] = \
-                [float(self.scaleZMin.text()), float(self.scaleZMax.text())]
+        if self.scale_z_check.isChecked():
+            self.scatter.scale_ranges[2] = \
+                [float(self.scale_z_min.text()), float(self.scale_z_max.text())]
 
-        if self.rotateXCheck.isChecked():
-            self.scatter.rotateRanges[0] = \
-                [int(self.rotXMin.text()), int(self.rotXMax.text())]
-            log.warning(self.scatter.rotateRanges[0])
+        if self.rotate_x_check.isChecked():
+            self.scatter.rotate_ranges[0] = \
+                [int(self.rot_x_min.text()), int(self.rot_x_max.text())]
+            log.warning(self.scatter.rotate_ranges[0])
 
-        if self.rotateYCheck.isChecked():
-            self.scatter.rotateRanges[1] = \
-                [int(self.rotYMin.text()), int(self.rotYMax.text())]
+        if self.rotate_y_check.isChecked():
+            self.scatter.rotate_ranges[1] = \
+                [int(self.rot_y_min.text()), int(self.rot_y_max.text())]
 
-        if self.rotateZCheck.isChecked():
-            self.scatter.rotateRanges[2] = \
-                [int(self.rotZMin.text()), int(self.rotZMax.text())]
+        if self.rotate_z_check.isChecked():
+            self.scatter.rotate_ranges[2] = \
+                [int(self.rot_z_min.text()), int(self.rot_z_max.text())]
 
 
 class Scatter:
 
     def __init__(self):
-        self.rotateRanges = [
+        self.rotate_ranges = [
             [0, 0],
             [0, 0],
             [0, 0]]
-        self.scaleRanges = [
+        self.scale_ranges = [
             [1.0, 1.0],
             [1.0, 1.0],
             [1.0, 1.0]]
@@ -296,11 +296,11 @@ class Scatter:
                        scale=self.get_scale_range())
             cmds.parent(instance_result, instance_group)
         cmds.xform(instance_group, centerPivots=True)
-        self.rotateRanges = [
+        self.rotate_ranges = [
             [0, 0],
             [0, 0],
             [0, 0]]
-        self.scaleRanges = [
+        self.scale_ranges = [
             [1.0, 1.0],
             [1.0, 1.0],
             [1.0, 1.0]]
@@ -319,7 +319,7 @@ class Scatter:
 
     def get_rotate_range(self):
         rotation = []
-        for r in self.rotateRanges:
+        for r in self.rotate_ranges:
             if r[0] == r[1]:
                 rotation.append(r[0])
             else:
@@ -329,7 +329,7 @@ class Scatter:
 
     def get_scale_range(self):
         scale = []
-        for r in self.scaleRanges:
+        for r in self.scale_ranges:
             if r[0] == r[1]:
                 scale.append(r[0])
             else:
