@@ -284,7 +284,7 @@ class Scatter:
         if self.source is None:
             selection = cmds.ls(orderedSelection=True, flatten=True)
             self.source = selection[0]
-            self.vertices = cmds.polyListComponentConversion(self.vertices, toVertex=True)
+            self.vertices = cmds.polyListComponentConversion(selection[1:], toVertex=True)
             self.vertices = cmds.filterExpand(self.vertices, sm=31)
 
         instance_group = cmds.group(empty=True, name=self.source + "_instanceGroup#")
