@@ -60,14 +60,22 @@ class ScatterUI(QtWidgets.QDialog):
         self.source_select_btn = QtWidgets.QPushButton("Select")
         self.destination_btn = QtWidgets.QPushButton("Add Selection as the Destination")
         self.destination_select_btn = QtWidgets.QPushButton("Select")
+        self.scatter_percentage_lbl = QtWidgets.QLabel("Scatter Percentage: ")
+        self.scatter_percentage_sbx = QtWidgets.QSpinBox()
 
         self.source_select_btn.setFixedWidth(75)
         self.destination_select_btn.setFixedWidth(75)
+        self.scatter_percentage_sbx.setFixedWidth(75)
+        self.scatter_percentage_sbx.setRange(0, 100)
+        self.scatter_percentage_sbx.setValue(100)
+        self.scatter_percentage_sbx.setSuffix("%")
 
         layout.addWidget(self.source_btn, 0, 0)
         layout.addWidget(self.source_select_btn, 0, 1)
         layout.addWidget(self.destination_btn, 1, 0)
         layout.addWidget(self.destination_select_btn, 1, 1)
+        layout.addWidget(self.scatter_percentage_lbl, 2, 0)
+        layout.addWidget(self.scatter_percentage_sbx, 2, 1)
         return layout
 
     def create_scale_options(self):
@@ -241,6 +249,7 @@ class ScatterUI(QtWidgets.QDialog):
         cmds.select(self.scatter.vertices)
 
     def set_properties_from_ui(self):
+        self.scatter.scatter_percentage = (float(self.scatter_percentage_sbx.cleanText()) / 100.0)
         if self.scale_x_check.isChecked():
             self.scatter.scale_ranges[0] = \
                 [float(self.scale_x_min.text()), float(self.scale_x_max.text())]
@@ -279,6 +288,7 @@ class Scatter:
             [1.0, 1.0],
             [1.0, 1.0]]
         self.source = None
+        self.scatter_percentage = 1.0
 
     def instance_selection(self):
         if self.source is None:
@@ -288,6 +298,8 @@ class Scatter:
             self.vertices = cmds.filterExpand(self.vertices, sm=31)
 
         instance_group = cmds.group(empty=True, name=self.source + "_instanceGroup#")
+        scatter_amount = int(round(len(self.vertices) * self.scatter_percentage))
+        self.vertices = rand.sample(self.vertices, k=scatter_amount)
         for vert in self.vertices:
             instance_result = cmds.instance(self.source, name=self.source + "_instance#")
             position = cmds.pointPosition(vert, world=True)
