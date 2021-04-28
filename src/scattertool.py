@@ -36,6 +36,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.selection_lay = self.create_selection_options()
         self.rotation_lay = self.create_rotation_options()
         self.scale_lay = self.create_scale_options()
+        self.scatter_lay = self.create_scatter_options()
 
         self.scale_lbl = QtWidgets.QLabel("Random Scale Options:")
         self.scale_lbl.setStyleSheet("font: bold 18px")
@@ -44,6 +45,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.rotation_lbl.setStyleSheet("font: bold 18px")
 
         self.main_lay.addLayout(self.selection_lay)
+        self.main_lay.addLayout(self.scatter_lay)
         self.main_lay.addStretch()
         self.main_lay.addWidget(self.scale_lbl)
         self.main_lay.addLayout(self.scale_lay)
@@ -56,26 +58,40 @@ class ScatterUI(QtWidgets.QDialog):
 
     def create_selection_options(self):
         layout = QtWidgets.QGridLayout()
-        self.source_btn = QtWidgets.QPushButton("Add Selection as the Source")
+        self.source_btn = QtWidgets.QPushButton("Set Selection as the Source")
         self.source_select_btn = QtWidgets.QPushButton("Select")
-        self.destination_btn = QtWidgets.QPushButton("Add Selection as the Destination")
+        self.destination_btn = QtWidgets.QPushButton("Set Selection as the Destination")
         self.destination_select_btn = QtWidgets.QPushButton("Select")
-        self.scatter_percentage_lbl = QtWidgets.QLabel("Scatter Percentage: ")
-        self.scatter_percentage_sbx = QtWidgets.QSpinBox()
+
 
         self.source_select_btn.setFixedWidth(75)
         self.destination_select_btn.setFixedWidth(75)
-        self.scatter_percentage_sbx.setFixedWidth(75)
-        self.scatter_percentage_sbx.setRange(0, 100)
-        self.scatter_percentage_sbx.setValue(100)
-        self.scatter_percentage_sbx.setSuffix("%")
+
 
         layout.addWidget(self.source_btn, 0, 0)
         layout.addWidget(self.source_select_btn, 0, 1)
         layout.addWidget(self.destination_btn, 1, 0)
         layout.addWidget(self.destination_select_btn, 1, 1)
-        layout.addWidget(self.scatter_percentage_lbl, 2, 0)
-        layout.addWidget(self.scatter_percentage_sbx, 2, 1)
+
+        return layout
+
+    def create_scatter_options(self):
+        layout = QtWidgets.QGridLayout()
+        self.scatter_percentage_lbl = QtWidgets.QLabel("Scatter Percentage: ")
+        self.scatter_percentage_sbx = QtWidgets.QSpinBox()
+        self.add_normal_contraint_check = QtWidgets.QCheckBox("Constrain source to normals")
+
+        self.scatter_percentage_sbx.setFixedWidth(75)
+        self.scatter_percentage_sbx.setRange(0, 100)
+        self.scatter_percentage_sbx.setValue(100)
+        self.scatter_percentage_sbx.setSuffix("%")
+
+        layout.addWidget(self.scatter_percentage_lbl, 0, 0)
+        layout.addWidget(self.scatter_percentage_sbx, 0, 1)
+        layout.addWidget(self.add_normal_contraint_check, 1, 0)
+
+
+
         return layout
 
     def create_scale_options(self):
@@ -250,6 +266,10 @@ class ScatterUI(QtWidgets.QDialog):
 
     def set_properties_from_ui(self):
         self.scatter.scatter_percentage = (float(self.scatter_percentage_sbx.cleanText()) / 100.0)
+        if self.add_normal_contraint_check.isChecked():
+            self.scatter.normal_scatter = True
+        else:
+            self.scatter.normal_scatter = False
         if self.scale_x_check.isChecked():
             self.scatter.scale_ranges[0] = \
                 [float(self.scale_x_min.text()), float(self.scale_x_max.text())]
@@ -265,7 +285,6 @@ class ScatterUI(QtWidgets.QDialog):
         if self.rotate_x_check.isChecked():
             self.scatter.rotate_ranges[0] = \
                 [int(self.rot_x_min.text()), int(self.rot_x_max.text())]
-            log.warning(self.scatter.rotate_ranges[0])
 
         if self.rotate_y_check.isChecked():
             self.scatter.rotate_ranges[1] = \
@@ -289,6 +308,7 @@ class Scatter:
             [1.0, 1.0]]
         self.source = None
         self.scatter_percentage = 1.0
+        self.normal_scatter = False
 
     def instance_selection(self):
         if self.source is None:
@@ -307,7 +327,11 @@ class Scatter:
                        translation=position,
                        rotation=self.get_rotate_range(),
                        scale=self.get_scale_range())
+            if self.normal_scatter:
+                cmds.normalConstraint(vert, instance_result, aimVector=[0.0, 1.0, 0.0])
+
             cmds.parent(instance_result, instance_group)
+            cmds.delete("*normalConstraint1")
         cmds.xform(instance_group, centerPivots=True)
         self.rotate_ranges = [
             [0, 0],
