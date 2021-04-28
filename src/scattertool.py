@@ -1,5 +1,5 @@
 import logging
-import maya.OpenMayaUI as omui
+import maya.OpenMayaUI as Omui
 import maya.cmds as cmds
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 def maya_main_window():
     """Return the maya main window widget"""
-    main_window = omui.MQtUtil.mainWindow()
+    main_window = Omui.MQtUtil.mainWindow()
     return wrapInstance(long(main_window), QtWidgets.QWidget)
 
 
@@ -63,10 +63,8 @@ class ScatterUI(QtWidgets.QDialog):
         self.destination_btn = QtWidgets.QPushButton("Set Selection as the Destination")
         self.destination_select_btn = QtWidgets.QPushButton("Select")
 
-
         self.source_select_btn.setFixedWidth(75)
         self.destination_select_btn.setFixedWidth(75)
-
 
         layout.addWidget(self.source_btn, 0, 0)
         layout.addWidget(self.source_select_btn, 0, 1)
@@ -79,18 +77,18 @@ class ScatterUI(QtWidgets.QDialog):
         layout = QtWidgets.QGridLayout()
         self.scatter_percentage_lbl = QtWidgets.QLabel("Scatter Percentage: ")
         self.scatter_percentage_sbx = QtWidgets.QSpinBox()
-        self.add_normal_contraint_check = QtWidgets.QCheckBox("Constrain source to normals")
+        self.add_normal_constraint_check = QtWidgets.QCheckBox("Constrain source to normals")
 
         self.scatter_percentage_sbx.setFixedWidth(75)
         self.scatter_percentage_sbx.setRange(0, 100)
         self.scatter_percentage_sbx.setValue(100)
         self.scatter_percentage_sbx.setSuffix("%")
+        self.scatter_percentage_lbl.setStyleSheet("font: 14px")
+        self.add_normal_constraint_check.setStyleSheet("font: 14px")
 
         layout.addWidget(self.scatter_percentage_lbl, 0, 0)
         layout.addWidget(self.scatter_percentage_sbx, 0, 1)
-        layout.addWidget(self.add_normal_contraint_check, 1, 0)
-
-
+        layout.addWidget(self.add_normal_constraint_check, 1, 0)
 
         return layout
 
@@ -266,7 +264,7 @@ class ScatterUI(QtWidgets.QDialog):
 
     def set_properties_from_ui(self):
         self.scatter.scatter_percentage = (float(self.scatter_percentage_sbx.cleanText()) / 100.0)
-        if self.add_normal_contraint_check.isChecked():
+        if self.add_normal_constraint_check.isChecked():
             self.scatter.normal_scatter = True
         else:
             self.scatter.normal_scatter = False
