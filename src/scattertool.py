@@ -321,15 +321,17 @@ class Scatter:
         for vert in self.vertices:
             instance_result = cmds.instance(self.source, name=self.source + "_instance#")
             position = cmds.pointPosition(vert, world=True)
+            log.warning(position)
             cmds.xform(instance_result,
                        translation=position,
                        rotation=self.get_rotate_range(),
                        scale=self.get_scale_range())
             if self.normal_scatter:
                 cmds.normalConstraint(vert, instance_result, aimVector=[0.0, 1.0, 0.0])
+                cmds.delete("*normalConstraint1")
 
             cmds.parent(instance_result, instance_group)
-            cmds.delete("*normalConstraint1")
+
         cmds.xform(instance_group, centerPivots=True)
         self.rotate_ranges = [
             [0, 0],
