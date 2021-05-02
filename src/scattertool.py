@@ -317,11 +317,10 @@ class Scatter:
 
         instance_group = cmds.group(empty=True, name=self.source + "_instanceGroup#")
         scatter_amount = int(round(len(self.vertices) * self.scatter_percentage))
-        self.vertices = rand.sample(self.vertices, k=scatter_amount)
-        for vert in self.vertices:
+        self.vertices_to_instance = rand.sample(self.vertices, k=scatter_amount)
+        for vert in self.vertices_to_instance:
             instance_result = cmds.instance(self.source, name=self.source + "_instance#")
             position = cmds.pointPosition(vert, world=True)
-            log.warning(position)
             cmds.xform(instance_result,
                        translation=position,
                        rotation=self.get_rotate_range(),
