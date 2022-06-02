@@ -1,2 +1,2 @@
-# sfa_scripts
-Repository for storing projects of the Scripting for Animation class for Spring 2021
+# My Maya Tools
+Tools that I have developed and use in my Maya Workflow
